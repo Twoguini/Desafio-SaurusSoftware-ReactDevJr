@@ -74,4 +74,4 @@ Todo:
 - Serviço login
 
 Não é possível: 
-- Fazer sistema de sessão
+- Fazer sistema de sessão (Não permitido pela api, ela não retorna e nem suporta envio e retorno de token)
