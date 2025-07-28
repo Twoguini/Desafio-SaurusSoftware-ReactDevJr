@@ -32,10 +32,30 @@ function Login() {
     fetchApplications();
   }, [])
 
+  useEffect(() => {
+    if(erro != null) {
+      const timeout = setTimeout(() => {
+        setErro(null);
+      }, 2000)
+
+      return () => clearTimeout(timeout);
+    }
+  }, [erro])
+
+  const loginFormSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // não recarrega a página
+    setErro("Teste Erro");
+    /*try {
+      //await enviarDadosParaAPI({ nome }); // chama seu serviço
+    } catch (e) {
+      setErro('Erro ao enviar os dados');
+    }*/
+  };
+
   return(
     <div className="login-background">
       {erro && <p className='erro-message' >{erro}</p>}
-      <form className='login-form'>
+      <form className='login-form' onSubmit={loginFormSubmitHandler}>
         
         <label className='aplication-select'>
           <label htmlFor="select_aplication" className='application-SelectionLabel'>Aplicação</label>
