@@ -75,6 +75,8 @@ Todo:
 - documentar os comentários de especificações 
 - documentar melhor o código
 
+- Se der tempo: Animação De passagem de páginas.
+
 Não é possível: 
 - Fazer sistema de sessão (Não permitido pela api, ela não retorna e nem suporta envio e retorno de token)
 

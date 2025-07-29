@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import '../style/login.css'
+
+import LoginForm from '../components/LoginForm'
+import ErrorMessage from '../components/ErroMessage';
 
 import GetAplicacoes from '../services/getAplicacoes'
 import PostUserAuth from '../services/authUser'
 
-import type { Aplicacao } from '../types/api_Responses'
+import type { Aplicacao, UserAuthRes } from '../types/api_Responses'
 
-function formatReferenceName(name: string):string  {
-  return name.slice(5);
-}
+import  *  as logInUtils from '../utils/LoginUtils'
+import { setCookie } from '../utils/CookieHandling'
 
 function Login() {
   const [aplicacoes, setAplicacoes] = useState<Aplicacao[]>([]);
@@ -66,6 +68,10 @@ function Login() {
       // A cada requisição futura, o cliente envia esse token como cabeçalho Authorization.
       // O backend verifica o token e, se for inválido ou expirado, o usuário é redirecionado para o login novamente.
 
+      // setar um cookie usando a aplicationId para uso posterior.
+      setCookie("applicationId", (res.data as UserAuthRes).credenciais[0].aplicacaoid.toString(), 1)
+      setCookie("username", (res.data as UserAuthRes).credenciais[0].username.toString(), 1)
+
       navigate('/orders');
     } else {
       const erroFormatado = (res.data as Error).message;
@@ -75,35 +81,12 @@ function Login() {
 
   return(
     <div className="login-background">
-      {erro && <p className='erro-message' >{erro}</p>}
-      <form className='login-form' onSubmit={loginFormSubmitHandler}>
-        
-        <label className='aplication-select'>
-          <label htmlFor="select_aplication" className='application-SelectionLabel'>Aplicação</label>
-          <select name="select_aplication" id="select_aplication">
-            {aplicacoes.map((app) => (
-              <option key={app.id} value={app.id}>{formatReferenceName(app.nomeReferencia)}</option>
-            ))}
-          </select>
-          <label htmlFor="select_aplication" className="select-arrow">▾</label>
-        </label>
-
-        <label className='aplication-select'>
-          <label htmlFor="user-id" className='application-SelectionLabel'>Id Usuário</label>
-          <input type="text" id="user-id" name="user-id" />
-        </label>
-
-        <label className='aplication-select'>
-          <input type="password" id="password" name="password" placeholder="password" />
-        </label>
-
-        <div className="checkbox-container">
-          <input type="checkbox" id="ambiente" />
-          <label htmlFor="ambiente">Ambiente de Produção</label>
-        </div>
-
-        <button type="submit">Acessar</button>
-      </form>
+      {erro && <ErrorMessage message={erro} />}
+      <LoginForm 
+        aplicacoes={aplicacoes}
+        formatReferenceName={logInUtils.formatReferenceName}
+        onSubmit={loginFormSubmitHandler}
+      />
     </div>
   )
 }

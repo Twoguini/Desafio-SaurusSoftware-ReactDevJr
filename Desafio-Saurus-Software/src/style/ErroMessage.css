@@ -1,0 +1,17 @@
+.erro-message {
+  font-size: 3vw;
+}
+
+/*Tablet*/
+@media (min-width: 768px) {
+  .erro-message {
+    font-size: 2vw;
+  }
+}
+
+/*Computadores*/
+@media (min-width: 1024px) {
+  .erro-message {
+    font-size: 1.2vw;
+  }
+}

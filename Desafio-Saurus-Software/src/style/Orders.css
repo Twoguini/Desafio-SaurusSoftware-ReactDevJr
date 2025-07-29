@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+.table-container {
+  @apply w-[95%] mx-auto bg-gray-100 p-4 rounded-lg shadow-md;
+}
+.orders-table {
+  @apply table-auto w-full border-collapse;
+}
+
+.orders-table thead th {
+  @apply text-left text-sm text-gray-600 pb-2;
+}
+
+.orders-table tbody tr {
+  @apply bg-white border-b last:border-none hover:bg-gray-50;
+}
+
+.orders-table td, .orders-table th {
+  @apply p-3 align-middle;
+}
+
+.orders-table input[type="checkbox"] {
+  @apply w-4 h-4 accent-red-600;
+}
+
+.orders-table td:last-child {
+  @apply text-right text-gray-800 font-semibold;
+}
