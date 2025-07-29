@@ -71,7 +71,13 @@ export default tseslint.config([
 
 Todo: 
 - Mascaras de login 
-- Serviço login
+- Timeout nos Services
+- documentar os comentários de especificações 
+- documentar melhor o código
 
 Não é possível: 
 - Fazer sistema de sessão (Não permitido pela api, ela não retorna e nem suporta envio e retorno de token)
+
+Anotações:
+- Só é possível fazer login com o Retaguarda App(Homol)
+- A checkbox não está sendo enviada, está lá só por motivos de seguir o layout, tive que retirar o placeholder "CPF / CNPJ" pois não fazia sentido

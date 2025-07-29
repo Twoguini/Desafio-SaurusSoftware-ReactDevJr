@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import '../style/login.css'
 
 import GetAplicacoes from '../services/getAplicacoes'
-import type { Aplicacao } from '../types/api_Responses';
+import PostUserAuth from '../services/authUser'
+
+import type { Aplicacao } from '../types/api_Responses'
 
 function formatReferenceName(name: string):string  {
   return name.slice(5);
@@ -12,6 +15,8 @@ function formatReferenceName(name: string):string  {
 function Login() {
   const [aplicacoes, setAplicacoes] = useState<Aplicacao[]>([]);
   const [erro, setErro] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Login";
@@ -36,20 +41,36 @@ function Login() {
     if(erro != null) {
       const timeout = setTimeout(() => {
         setErro(null);
-      }, 2000)
+      }, 25000)
 
       return () => clearTimeout(timeout);
     }
   }, [erro])
 
   const loginFormSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // não recarrega a página
-    setErro("Teste Erro");
-    /*try {
-      //await enviarDadosParaAPI({ nome }); // chama seu serviço
-    } catch (e) {
-      setErro('Erro ao enviar os dados');
-    }*/
+    event.preventDefault();
+    
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const applicationId = String(formData.get('select_aplication')?? '').trim();
+    const username = String(formData.get('user-id')?? '').trim();
+    const password = String(formData.get('password')?? '').trim();
+
+    const res = await PostUserAuth(applicationId, username, password);
+
+    if(res.status_ok) {
+      // Login Bem sucedido.
+      // Em uma aplicação real, após o login ser bem-sucedido, o servidor geralmente gera um token de sessão (JWT).
+      // Esse token é enviado de volta para o cliente, que o armazena (por exemplo, no localStorage ou cookie).
+      // A cada requisição futura, o cliente envia esse token como cabeçalho Authorization.
+      // O backend verifica o token e, se for inválido ou expirado, o usuário é redirecionado para o login novamente.
+
+      navigate('/orders');
+    } else {
+      const erroFormatado = (res.data as Error).message;
+      setErro(erroFormatado);
+    }
   };
 
   return(
@@ -73,7 +94,7 @@ function Login() {
         </label>
 
         <label className='aplication-select'>
-          <input type="text" id="cpf-cnpj" name="cpf-cnpj" placeholder="CNPJ / CPF" />
+          <input type="password" id="password" name="password" placeholder="password" />
         </label>
 
         <div className="checkbox-container">

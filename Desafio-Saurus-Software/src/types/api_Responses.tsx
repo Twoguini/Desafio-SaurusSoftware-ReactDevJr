@@ -8,18 +8,25 @@ export type Aplicacao = {
   sincronizacaoBackground: boolean
 }
 
+export type UserAuthRes = {
+  credenciais: [{
+    username: string
+    aplicacaoid: string
+  }]
+}
+
 export type Api_Response = {
   status_ok: boolean
   status: number
-  data: Aplicacao[] | HttpError_GET
+  data: Aplicacao[] | HttpError | UserAuthRes | Error
 }
 
-export class HttpError_GET extends Error {
+export class HttpError extends Error {
   status: number
 
   constructor(message: string, status: number) {
     super(message);
-    this.name = "HttpError_GET";
+    this.name = "HttpError";
     this.status = status;
   }
 }

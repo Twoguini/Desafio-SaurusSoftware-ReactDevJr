@@ -62,7 +62,7 @@
   z-index: 1;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
   border: none;
   all: unset; /* Reseta quase tudo */
   appearance: none;           /* Remove seta nativa (padrão em Chrome/Safari) */
@@ -107,13 +107,17 @@ button:hover {
   background-color: #cc0000;
 }
 
+.erro-message {
+  font-size: 3vw;
+}
+
 /*Tablet*/
 @media (min-width: 768px) {
   input[type="text"], button, #select_aplication, .application-SelectionLabel, .checkbox-container {
     font-size: 3.2vw;
   }
   .erro-message {
-    font-size: 4vw;
+    font-size: 2vw;
   }
 }
 
@@ -125,10 +129,10 @@ button:hover {
   .application-SelectionLabel, .checkbox-container {
     font-size: 0.6vw;
   }
-  input[type="text"], button, #select_aplication {
+  input[type="text"], input[type="password"], button, #select_aplication {
     font-size: 1vw;
   }
-  #select_aplication, input[type="text"] #user-id {
+  #select_aplication, input[type="text"], input[type="password"],  #user-id {
     margin-top: 2%;
   }
   .select-arrow {

@@ -6,6 +6,7 @@ function Routing() {
   return(
     <Routes>
       <Route path='/' element={<Login />} />
+      <Route path='/orders'></Route>
     </Routes>
   )
 } 
